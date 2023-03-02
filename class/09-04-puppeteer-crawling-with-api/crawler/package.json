@@ -1,0 +1,11 @@
+{
+  "name": "09-02-puppteer-crawling",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "mongoose": "^6.8.2",
+    "puppeteer": "^19.4.1"
+  }
+}
