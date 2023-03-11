@@ -16,7 +16,7 @@ export class User {
 
   @Column({ unique: true })
   @Field(() => String)
-  login_id: string;
+  loginId: string;
 
   @Column()
   @Field(() => String)
@@ -40,13 +40,13 @@ export class User {
 
   @Column({ nullable: true })
   @Field(() => String, { nullable: true })
-  profile_image_url: string;
+  profileImageUrl: string;
 
   @CreateDateColumn()
   @Field(() => Date)
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
   @Field(() => Date)
-  updated_at: Date;
+  updatedAt: Date;
 }

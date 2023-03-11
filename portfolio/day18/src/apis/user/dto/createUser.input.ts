@@ -3,7 +3,7 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class CreateUserInput {
   @Field(() => String)
-  login_id: string;
+  loginId: string;
 
   @Field(() => String)
   password: string;
@@ -21,5 +21,5 @@ export class CreateUserInput {
   phonenumber: string;
 
   @Field(() => String, { nullable: true })
-  profile_image_url: string;
+  profileImageUrl: string;
 }

@@ -1,3 +1,4 @@
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { User } from 'src/apis/user/entities/user.entity';
 import {
   Column,
@@ -10,35 +11,46 @@ import {
 } from 'typeorm';
 
 @Entity()
+@ObjectType()
 export class Product {
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => String)
   id: string;
 
   @Column()
+  @Field(() => String)
   name: string;
 
   @Column()
+  @Field(() => Int)
   price: number;
 
   @Column()
+  @Field(() => String)
   location: string;
 
-  @Column()
+  @Column({ nullable: true })
+  @Field(() => Int)
   views: number;
 
   @Column()
+  @Field(() => String)
   description: string;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
-  is_soldout: number;
+  @Column({ default: false })
+  @Field(() => Boolean)
+  isSoldout: boolean;
 
   @CreateDateColumn()
-  created_at: Date;
+  @Field(() => Date)
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  @Field(() => Date)
+  updatedAt: Date;
 
   @JoinColumn()
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: true })
+  @Field(() => User)
   user: User;
 }

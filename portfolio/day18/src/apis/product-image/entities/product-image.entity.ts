@@ -1,3 +1,4 @@
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Product } from 'src/apis/product/entities/product.entity';
 import {
   Column,
@@ -8,17 +9,22 @@ import {
 } from 'typeorm';
 
 @Entity()
+@ObjectType()
 export class ProductImage {
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => String)
   id: string;
 
   @Column()
-  image_url: string;
+  @Field(() => String)
+  imageUrl: string;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
-  is_main: number;
+  @Column({ default: false })
+  @Field(() => Boolean)
+  isMain: boolean;
 
   @JoinColumn()
   @ManyToOne(() => Product)
+  @Field(() => Product)
   product: Product;
 }

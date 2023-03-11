@@ -1,3 +1,4 @@
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Product } from 'src/apis/product/entities/product.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import {
@@ -11,23 +12,30 @@ import {
 } from 'typeorm';
 
 @Entity()
+@ObjectType()
 export class Comment {
   @PrimaryGeneratedColumn('uuid')
+  @Field(() => Int)
   id: number;
 
   @Column()
+  @Field(() => String)
   content: string;
 
   @CreateDateColumn()
-  created_at: Date;
+  @Field(() => Date)
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  @Field(() => Date)
+  updatedAt: Date;
 
   @JoinColumn()
   @ManyToOne(() => Product)
+  @Field(() => Product)
   product: Product;
 
   @ManyToOne(() => User)
+  @Field(() => User)
   user: User;
 }
