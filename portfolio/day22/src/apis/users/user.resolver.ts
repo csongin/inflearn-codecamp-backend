@@ -3,8 +3,8 @@ import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthAccessGuard } from '../auth/gql-auth.guard';
 import { CurrentUser } from 'src/commons/auth/gql-user.pram';
+import { GqlAuthAccessGuard } from '../auth/gql-auth.guard';
 
 @Resolver()
 export class UserResolver {
@@ -12,10 +12,9 @@ export class UserResolver {
 
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => String)
-  fetchUser(@CurrentUser() currentUser: any) {
-    console.log('fetchUser');
-    console.log(currentUser);
-    return 'fetchUser';
+  fetchLoginUser(@CurrentUser() currentUser: any) {
+    console.log({ userInfo: currentUser });
+    return 'login success';
   }
 
   @Mutation(() => User)
@@ -40,8 +39,24 @@ export class UserResolver {
     });
   }
 
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => String)
+  async updateUserPwd(
+    @CurrentUser() currentUser: any,
+    @Args('password') password: string,
+  ) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return this.userService.updatePwd({
+      email: currentUser.email,
+      password: hashedPassword,
+    });
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  deleteUser(@Args('email') email: string, @Args('password') password: string) {
-    return this.userService.delete({ email, password });
+  deleteLoginUser(@CurrentUser() currentUser: any) {
+    return this.userService.delete({
+      email: currentUser.email,
+    });
   }
 }

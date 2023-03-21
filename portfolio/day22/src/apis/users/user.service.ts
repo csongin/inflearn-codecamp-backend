@@ -44,10 +44,21 @@ export class UserService {
     });
   }
 
-  async delete({ email, password }) {
-    const result = await this.userRepository.softDelete({
+  async updatePwd({ email, password }) {
+    const myUser = await this.userRepository.findOne({ email });
+    if (!myUser) {
+      throw new ConflictException('존재하지 않는 이메일 입니다.');
+    }
+    const newUser = {
       email,
       password,
+    };
+    return await this.userRepository.save(newUser);
+  }
+
+  async delete({ email }) {
+    const result = await this.userRepository.softDelete({
+      email,
     });
     return result.affected ? true : false;
   }

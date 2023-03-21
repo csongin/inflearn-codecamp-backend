@@ -1,7 +1,7 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-export class jwtAccessStrategy extends PassportStrategy(
+export class JwtAccessStrategy extends PassportStrategy(
   Strategy,
   'jwt-access',
 ) {
@@ -12,7 +12,10 @@ export class jwtAccessStrategy extends PassportStrategy(
       secretOrKey: 'myAccessKey',
     });
   }
-  async validate(payload: any) {
-    return { userId: payload.sub, email: payload.email };
+  validate(payload) {
+    return {
+      userId: payload.sub,
+      email: payload.email,
+    };
   }
 }
