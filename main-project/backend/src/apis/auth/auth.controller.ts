@@ -12,9 +12,13 @@ interface IOAuthUser {
     | 'password'
     | 'name'
     | 'nickname'
+    | 'gender'
     | 'birthday'
-    | 'phonenumber'
+    | 'mobile'
     | 'profileImageUrl'
+    | 'snsId'
+    | 'snsType'
+    | 'snsProfile'
   >;
 }
 
@@ -32,16 +36,75 @@ export class AuthController {
     @Res() res: Response,
   ) {
     let user = await this.userService.findOne({ email: req.user.email });
-    console.log(req);
     if (!user) {
       user = await this.userService.create({
         email: req.user.email,
         hashedPassword: req.user.password,
         name: req.user.name,
         nickname: req.user.nickname,
+        gender: req.user.gender,
         birthday: req.user.birthday,
-        phonenumber: req.user.phonenumber,
+        mobile: req.user.mobile,
         profileImageUrl: req.user.profileImageUrl,
+        snsId: req.user.snsId,
+        snsType: req.user.snsType,
+        snsProfile: '',
+      });
+    }
+    this.authService.setRefreshToken({ user, res });
+    res.redirect(
+      'http://localhost:5500/main-project/frontend/login/index.html',
+    );
+  }
+
+  @Get('/login/naver')
+  @UseGuards(AuthGuard('naver'))
+  async loginNaver(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    let user = await this.userService.findOne({ email: req.user.email });
+    if (!user) {
+      user = await this.userService.create({
+        email: req.user.email,
+        hashedPassword: req.user.password,
+        name: req.user.name,
+        nickname: req.user.nickname,
+        gender: req.user.gender,
+        birthday: req.user.birthday,
+        mobile: req.user.mobile,
+        profileImageUrl: req.user.profileImageUrl,
+        snsId: req.user.snsId,
+        snsType: req.user.snsType,
+        snsProfile: req.user.snsProfile,
+      });
+    }
+    this.authService.setRefreshToken({ user, res });
+    res.redirect(
+      'http://localhost:5500/main-project/frontend/login/index.html',
+    );
+  }
+
+  @Get('/login/kakao')
+  @UseGuards(AuthGuard('kakao'))
+  async loginKakao(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    let user = await this.userService.findOne({ email: req.user.email });
+    if (!user) {
+      user = await this.userService.create({
+        email: req.user.email,
+        hashedPassword: req.user.password,
+        name: req.user.name,
+        nickname: req.user.nickname,
+        gender: req.user.gender,
+        birthday: req.user.birthday,
+        mobile: req.user.mobile,
+        profileImageUrl: req.user.profileImageUrl,
+        snsId: req.user.snsId,
+        snsType: req.user.snsType,
+        snsProfile: req.user.snsProfile,
       });
     }
     this.authService.setRefreshToken({ user, res });

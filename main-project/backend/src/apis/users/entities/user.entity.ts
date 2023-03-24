@@ -35,15 +35,31 @@ export class User {
 
   @Column({ nullable: true })
   @Field(() => String)
+  gender: string;
+
+  @Column({ nullable: true })
+  @Field(() => String)
   birthday: string;
 
   @Column({ nullable: true })
   @Field(() => String)
-  phonenumber: string;
+  mobile: string;
 
   @Column({ nullable: true })
   @Field(() => String, { nullable: true })
   profileImageUrl: string;
+
+  @Column({ nullable: true })
+  @Field(() => String, { nullable: true })
+  snsId: string;
+
+  @Column({ nullable: true })
+  @Field(() => String, { nullable: true })
+  snsType: string;
+
+  @Column({ nullable: true })
+  @Field(() => String, { nullable: true })
+  snsProfile: string;
 
   @CreateDateColumn()
   @Field(() => Date)
