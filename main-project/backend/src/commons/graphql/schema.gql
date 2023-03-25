@@ -33,7 +33,6 @@ type User {
   profileImageUrl: String
   snsId: String
   snsType: String
-  snsProfile: String
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime!
@@ -49,7 +48,7 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
-  createUser(email: String!, password: String!, name: String!, nickname: String!, gender: String!, birthday: String!, mobile: String!, profileImageUrl: String!, snsId: String!, snsType: String!, snsProfile: String!): User!
+  createUser(email: String!, password: String!, name: String!, nickname: String!, gender: String!, birthday: String!, mobile: String!, profileImageUrl: String!, snsId: String!, snsType: String!): User!
   updateUserPwd(password: String!): String!
   deleteLoginUser: Boolean!
   createProduct(createProductInput: CreateProductInput!): Product!

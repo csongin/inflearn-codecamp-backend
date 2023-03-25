@@ -57,10 +57,6 @@ export class User {
   @Field(() => String, { nullable: true })
   snsType: string;
 
-  @Column({ nullable: true })
-  @Field(() => String, { nullable: true })
-  snsProfile: string;
-
   @CreateDateColumn()
   @Field(() => Date)
   createdAt: Date;

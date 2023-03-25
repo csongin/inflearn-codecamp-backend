@@ -16,14 +16,8 @@ export class JwtNaverStrategy extends PassportStrategy(Strategy, 'naver') {
       email: profile.email,
       password: '1234',
       name: profile.name,
-      nickname: profile.nickname,
-      gender: profile.gender,
-      birthday: `${profile.birthYear}-${profile.birthday}`,
-      mobile: profile.mobile,
-      profileImageUrl: '',
       snsId: profile.id,
       snsType: 'naver',
-      snsProfile: '',
     };
     return user;
   }

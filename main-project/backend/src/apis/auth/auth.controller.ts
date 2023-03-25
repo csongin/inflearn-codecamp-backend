@@ -18,7 +18,6 @@ interface IOAuthUser {
     | 'profileImageUrl'
     | 'snsId'
     | 'snsType'
-    | 'snsProfile'
   >;
 }
 
@@ -35,26 +34,7 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
-    let user = await this.userService.findOne({ email: req.user.email });
-    if (!user) {
-      user = await this.userService.create({
-        email: req.user.email,
-        hashedPassword: req.user.password,
-        name: req.user.name,
-        nickname: req.user.nickname,
-        gender: req.user.gender,
-        birthday: req.user.birthday,
-        mobile: req.user.mobile,
-        profileImageUrl: req.user.profileImageUrl,
-        snsId: req.user.snsId,
-        snsType: req.user.snsType,
-        snsProfile: '',
-      });
-    }
-    this.authService.setRefreshToken({ user, res });
-    res.redirect(
-      'http://localhost:5500/main-project/frontend/login/index.html',
-    );
+    this.socialLogin(req, res);
   }
 
   @Get('/login/naver')
@@ -63,26 +43,7 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
-    let user = await this.userService.findOne({ email: req.user.email });
-    if (!user) {
-      user = await this.userService.create({
-        email: req.user.email,
-        hashedPassword: req.user.password,
-        name: req.user.name,
-        nickname: req.user.nickname,
-        gender: req.user.gender,
-        birthday: req.user.birthday,
-        mobile: req.user.mobile,
-        profileImageUrl: req.user.profileImageUrl,
-        snsId: req.user.snsId,
-        snsType: req.user.snsType,
-        snsProfile: req.user.snsProfile,
-      });
-    }
-    this.authService.setRefreshToken({ user, res });
-    res.redirect(
-      'http://localhost:5500/main-project/frontend/login/index.html',
-    );
+    this.socialLogin(req, res);
   }
 
   @Get('/login/kakao')
@@ -91,20 +52,23 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
+    this.socialLogin(req, res);
+  }
+
+  async socialLogin(req, res) {
     let user = await this.userService.findOne({ email: req.user.email });
     if (!user) {
       user = await this.userService.create({
         email: req.user.email,
         hashedPassword: req.user.password,
         name: req.user.name,
-        nickname: req.user.nickname,
-        gender: req.user.gender,
-        birthday: req.user.birthday,
-        mobile: req.user.mobile,
-        profileImageUrl: req.user.profileImageUrl,
+        nickname: '',
+        gender: '',
+        birthday: '',
+        mobile: '',
+        profileImageUrl: '',
         snsId: req.user.snsId,
         snsType: req.user.snsType,
-        snsProfile: req.user.snsProfile,
       });
     }
     this.authService.setRefreshToken({ user, res });

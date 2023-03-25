@@ -31,7 +31,6 @@ export class UserService {
     profileImageUrl,
     snsId,
     snsType,
-    snsProfile,
   }) {
     const user = await this.userRepository.findOne({ email });
     if (user) {
@@ -48,7 +47,6 @@ export class UserService {
       profileImageUrl,
       snsId,
       snsType,
-      snsProfile,
     });
   }
 

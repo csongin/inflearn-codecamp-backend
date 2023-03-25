@@ -29,7 +29,6 @@ export class UserResolver {
     @Args('profileImageUrl') profileImageUrl: string,
     @Args('snsId') snsId: string,
     @Args('snsType') snsType: string,
-    @Args('snsProfile') snsProfile: string,
   ) {
     const hashedPassword = await bcrypt.hash(password, 10);
     return this.userService.create({
@@ -43,7 +42,6 @@ export class UserResolver {
       profileImageUrl,
       snsId,
       snsType,
-      snsProfile,
     });
   }
 
