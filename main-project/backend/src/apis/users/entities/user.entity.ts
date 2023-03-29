@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Product } from 'src/apis/products/entities/product.entity';
 import {
   Column,
@@ -44,6 +44,10 @@ export class User {
   @Column({ nullable: true })
   @Field(() => String, { nullable: true })
   profileImageUrl: string;
+
+  @Column({ default: 0 })
+  @Field(() => Int)
+  point: number;
 
   @CreateDateColumn()
   @Field(() => Date)

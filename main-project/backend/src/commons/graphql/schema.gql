@@ -30,9 +30,24 @@ type User {
   birthday: String!
   phonenumber: String!
   profileImageUrl: String
+  point: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime!
+}
+
+type Payment {
+  id: String!
+  impUid: String!
+  amount: Float!
+  status: POINT_TRANSACTION_STATUS_ENUM!
+  user: User!
+  createdAt: DateTime!
+}
+
+enum POINT_TRANSACTION_STATUS_ENUM {
+  PAYMENT
+  CANCEL
 }
 
 type Query {
@@ -45,6 +60,7 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
+  createPayment(impUid: String!, amount: Float!): Payment!
   createUser(email: String!, password: String!, name: String!, nickname: String!, birthday: String!, phonenumber: String!, profileImageUrl: String!): User!
   updateUserPwd(password: String!): String!
   deleteLoginUser: Boolean!

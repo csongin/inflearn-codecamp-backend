@@ -1,41 +1,45 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Product } from 'src/apis/products/entities/product.entity';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
+export enum POINT_TRANSACTION_STATUS_ENUM {
+  PAYMENT = 'PAYMENT',
+  CANCEL = 'CANCEL',
+}
+
+registerEnumType(POINT_TRANSACTION_STATUS_ENUM, {
+  name: 'POINT_TRANSACTION_STATUS_ENUM',
+});
 @Entity()
 @ObjectType()
 export class Payment {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @Field(() => String)
   id: string;
 
-  @Column({ default: false })
-  @Field(() => Boolean)
-  status: boolean;
+  @Column()
+  @Field(() => String)
+  impUid: string;
 
-  @CreateDateColumn()
-  @Field(() => Date)
-  createdAt: Date;
+  @Column()
+  @Field(() => Number)
+  amount: number;
 
-  @UpdateDateColumn()
-  @Field(() => Date)
-  updatedAt: Date;
-
-  @JoinColumn()
-  @ManyToOne(() => Product)
-  @Field(() => Product)
-  product: Product;
+  @Column({ type: 'enum', enum: POINT_TRANSACTION_STATUS_ENUM })
+  @Field(() => POINT_TRANSACTION_STATUS_ENUM)
+  status: POINT_TRANSACTION_STATUS_ENUM;
 
   @ManyToOne(() => User)
   @Field(() => User)
   user: User;
+
+  @CreateDateColumn()
+  @Field(() => Date)
+  createdAt: Date;
 }

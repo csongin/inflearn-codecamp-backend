@@ -18,7 +18,7 @@ export class AuthService {
   getAccessToken({ user }) {
     return this.jwtService.sign(
       { email: user.email, sub: user.id },
-      { secret: 'myAccessKey', expiresIn: '10s' },
+      { secret: 'myAccessKey', expiresIn: '10m' },
     );
   }
 }
