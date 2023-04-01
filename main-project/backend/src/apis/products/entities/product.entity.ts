@@ -6,8 +6,6 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -60,8 +58,4 @@ export class Product {
   @ManyToOne(() => User, { nullable: true })
   @Field(() => User, { nullable: true })
   user: User;
-
-  @JoinTable()
-  @ManyToMany(() => User, (users) => users.products)
-  users: User[];
 }

@@ -1,11 +1,9 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Product } from 'src/apis/products/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -60,7 +58,4 @@ export class User {
   @DeleteDateColumn()
   @Field(() => Date)
   deletedAt: Date;
-
-  @ManyToMany(() => Product, (products) => products.users)
-  products: Product[];
 }

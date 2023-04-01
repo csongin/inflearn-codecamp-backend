@@ -4,6 +4,7 @@ import { User } from '../users/entities/user.entity';
 import { Payment } from './entities/payment.entity';
 import { PaymentResolver } from './payment.resolver';
 import { PaymentService } from './payment.service';
+import { IamportService } from '../iamport/import.service';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PaymentService } from './payment.service';
   providers: [
     PaymentResolver, //
     PaymentService,
+    IamportService,
   ],
 })
 export class PaymentModule {}

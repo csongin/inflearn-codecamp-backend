@@ -6,6 +6,10 @@ export interface ICurrentUser {
   email: string;
   name?: string;
   password?: string;
+  nickname?: string;
+  birthday?: string;
+  phonenumber?: string;
+  profileImageUrl?: string;
   point?: number;
 }
 export const CurrentUser = createParamDecorator(
