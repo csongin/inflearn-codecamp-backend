@@ -61,6 +61,7 @@ type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
   createPayment(impUid: String!, amount: Float!): Payment!
+  cancelPayment(impUid: String!): Payment!
   createUser(email: String!, password: String!, name: String!, nickname: String!, birthday: String!, phonenumber: String!, profileImageUrl: String!): User!
   updateUserPwd(password: String!): String!
   deleteLoginUser: Boolean!
