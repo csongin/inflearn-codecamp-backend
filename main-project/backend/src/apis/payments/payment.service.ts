@@ -4,7 +4,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm/repository/Repository';
+import { Connection, Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import {
   Payment,
@@ -18,6 +18,8 @@ export class PaymentService {
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    private readonly connection: Connection,
   ) {}
 
   async checkDuplicate({ impUid }) {
@@ -68,20 +70,45 @@ export class PaymentService {
     currentUser,
     status = POINT_TRANSACTION_STATUS_ENUM.PAYMENT,
   }) {
-    const pointTransaction = await this.paymentRepository.create({
-      impUid,
-      amount,
-      user: currentUser.userId,
-      status,
-    });
+    const queryRunner = await this.connection.createQueryRunner();
+    await queryRunner.connect();
 
-    await this.paymentRepository.save(pointTransaction);
+    await queryRunner.startTransaction('SERIALIZABLE');
 
-    const user = await this.userRepository.findOne({ id: currentUser.userId });
-    await this.userRepository.update(
-      { id: user.id }, // where
-      { point: user.point + amount },
-    );
-    return pointTransaction;
+    try {
+      const pointTransaction = await this.paymentRepository.create({
+        impUid,
+        amount,
+        user: currentUser.userId,
+        status,
+      });
+      // await this.paymentRepository.save(pointTransaction);
+      await queryRunner.manager.save(pointTransaction);
+
+      // const user = await this.userRepository.findOne({ id: currentUser.userId });
+      const user = await queryRunner.manager.findOne(
+        User,
+        { id: currentUser.userId },
+        { lock: { mode: 'pessimistic_write' } },
+      );
+
+      // await this.userRepository.update(
+      //   { id: user.id }, // where
+      //   { point: user.point + amount },
+      // );
+      const updatedUser = this.userRepository.create({
+        ...user,
+        point: user.point + amount,
+      });
+      await queryRunner.manager.save(updatedUser);
+
+      await queryRunner.commitTransaction();
+
+      return pointTransaction;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
   }
 }
