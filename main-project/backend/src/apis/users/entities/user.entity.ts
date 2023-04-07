@@ -1,11 +1,9 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Product } from 'src/apis/products/entities/product.entity';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -49,13 +47,9 @@ export class User {
   @Field(() => String, { nullable: true })
   profileImageUrl: string;
 
-  @Column({ nullable: true })
-  @Field(() => String, { nullable: true })
-  snsId: string;
-
-  @Column({ nullable: true })
-  @Field(() => String, { nullable: true })
-  snsType: string;
+  @Column({ default: 0 })
+  @Field(() => Int)
+  point: number;
 
   @CreateDateColumn()
   @Field(() => Date)
@@ -68,7 +62,4 @@ export class User {
   @DeleteDateColumn()
   @Field(() => Date)
   deletedAt: Date;
-
-  @ManyToMany(() => Product, (products) => products.users)
-  products: Product[];
 }

@@ -4,12 +4,14 @@ import { ConfigModule } from '@nestjs/config'; // ConfigModule 추가
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './apis/auth/auth.module';
+import { PaymentModule } from './apis/payments/payment.module';
 import { ProductModule } from './apis/products/product.module';
 import { UserModule } from './apis/users/user.module';
 
 @Module({
   imports: [
     AuthModule,
+    PaymentModule,
     ConfigModule.forRoot(), // ConfigModule 추가
     UserModule,
     ProductModule,
