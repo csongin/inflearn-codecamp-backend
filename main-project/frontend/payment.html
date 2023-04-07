@@ -9,13 +9,12 @@
   <script>
     function mypayment() {
       const myAmount = Number(document.getElementById("amount").value);
-
       const IMP = window.IMP; // 생략 가능
       IMP.init("imp26636213"); // Example: imp00000000
       IMP.request_pay(
         {
           // param
-          pg: "kcp.nictest00m",
+          pg: "nice.nictest00m",
           pay_method: "card",
           name: "마우스",
           amount: myAmount,
@@ -27,10 +26,10 @@
           m_redirect_url: "", // 모바일 결제후 리다이렉트될 주소!!
         },
         async (rsp) => {
+          console.log(rsp)
           // callback
           if (rsp.success) {
             // 결제 성공시
-            console.log(rsp);
             const data = await axios.post(
               "http://localhost:3000/graphql",
               {
@@ -45,8 +44,8 @@
               {
                 headers: {
                   authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsInN1YiI6IjcyYjgyYjU4LWRiMzktNDQwNC1hNTViLTkwNDMyZTEyMDYwZSIsImlhdCI6MTY4MDA5Mzc3MSwiZXhwIjoxNjgwMDk0MzcxfQ.fb7APaHP5-II7JHDbx_SRnwuXo_lAuN8lWONOFeyGII"
-                },
+                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsInN1YiI6IjcyYjgyYjU4LWRiMzktNDQwNC1hNTViLTkwNDMyZTEyMDYwZSIsImlhdCI6MTY4MDc4NzA5NywiZXhwIjoxNjgwNzg3Njk3fQ.m3bG7MXEwTNq0zgjm0z9A82R3-9emWJ8FOH7c6hxHWs"
+                }
               }
             );
             console.log('결제 성공')
