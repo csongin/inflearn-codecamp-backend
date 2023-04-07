@@ -12,9 +12,12 @@ interface IOAuthUser {
     | 'password'
     | 'name'
     | 'nickname'
+    | 'gender'
     | 'birthday'
-    | 'phonenumber'
+    | 'mobile'
     | 'profileImageUrl'
+    | 'snsId'
+    | 'snsType'
   >;
 }
 
@@ -31,17 +34,41 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
+    this.socialLogin(req, res);
+  }
+
+  @Get('/login/naver')
+  @UseGuards(AuthGuard('naver'))
+  async loginNaver(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.socialLogin(req, res);
+  }
+
+  @Get('/login/kakao')
+  @UseGuards(AuthGuard('kakao'))
+  async loginKakao(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.socialLogin(req, res);
+  }
+
+  async socialLogin(req, res) {
     let user = await this.userService.findOne({ email: req.user.email });
-    console.log(req);
     if (!user) {
       user = await this.userService.create({
         email: req.user.email,
         hashedPassword: req.user.password,
         name: req.user.name,
-        nickname: req.user.nickname,
-        birthday: req.user.birthday,
-        phonenumber: req.user.phonenumber,
-        profileImageUrl: req.user.profileImageUrl,
+        nickname: '',
+        gender: '',
+        birthday: '',
+        mobile: '',
+        profileImageUrl: '',
+        snsId: req.user.snsId,
+        snsType: req.user.snsType,
       });
     }
     this.authService.setRefreshToken({ user, res });

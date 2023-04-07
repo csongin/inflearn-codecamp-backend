@@ -23,9 +23,12 @@ export class UserResolver {
     @Args('password') password: string,
     @Args('name') name: string,
     @Args('nickname') nickname: string,
+    @Args('gender') gender: string,
     @Args('birthday') birthday: string,
-    @Args('phonenumber') phonenumber: string,
+    @Args('mobile') mobile: string,
     @Args('profileImageUrl') profileImageUrl: string,
+    @Args('snsId') snsId: string,
+    @Args('snsType') snsType: string,
   ) {
     const hashedPassword = await bcrypt.hash(password, 10);
     return this.userService.create({
@@ -33,9 +36,12 @@ export class UserResolver {
       hashedPassword,
       name,
       nickname,
+      gender,
       birthday,
-      phonenumber,
+      mobile,
       profileImageUrl,
+      snsId,
+      snsType,
     });
   }
 

@@ -25,9 +25,12 @@ export class UserService {
     hashedPassword: password,
     name,
     nickname,
+    gender,
     birthday,
-    phonenumber,
+    mobile,
     profileImageUrl,
+    snsId,
+    snsType,
   }) {
     const user = await this.userRepository.findOne({ email });
     if (user) {
@@ -38,9 +41,12 @@ export class UserService {
       password,
       name,
       nickname,
+      gender,
       birthday,
-      phonenumber,
+      mobile,
       profileImageUrl,
+      snsId,
+      snsType,
     });
   }
 
